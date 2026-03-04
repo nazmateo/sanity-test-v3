@@ -78,6 +78,23 @@ export type BlockContent = Array<
     }
 >
 
+export type FooterSettings = {
+  _type: 'footerSettings'
+  heading?: string
+  menu: MenuGroup
+  legalMenu?: MenuGroup
+  showDefaultLegalLinks?: boolean
+  copyrightText?: string
+}
+
+export type HeaderSettings = {
+  _type: 'headerSettings'
+  primaryMenu: MenuGroup
+  secondaryMenu: MenuGroup
+  ctaLabel?: string
+  ctaLink?: CbLink
+}
+
 export type CbWysiwyg = {
   _type: 'cbWysiwyg'
   content?: BlockContentTextOnly
@@ -329,7 +346,7 @@ export type CbButtons = {
 export type CbButton = {
   _type: 'cbButton'
   label?: string
-  actionType?: 'button' | 'link'
+  actionType: 'button' | 'link'
   link?: CbLink
 }
 
@@ -369,6 +386,8 @@ export type Settings = {
     alt: string
     _type: 'image'
   }
+  header?: HeaderSettings
+  footer?: FooterSettings
   primaryMenu: MenuGroup
   secondaryMenu: MenuGroup
   menuGroups?: Array<
@@ -809,6 +828,8 @@ export type AllSanitySchemaTypes =
   | PageReference
   | SanityImageAssetReference
   | BlockContent
+  | FooterSettings
+  | HeaderSettings
   | CbWysiwyg
   | CbParagraph
   | CbNavigation

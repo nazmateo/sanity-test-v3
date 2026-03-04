@@ -7,14 +7,7 @@ type MenuLink = {
   _key?: string
   itemId?: string | null
   label?: string | null
-  link?: {
-    linkType?: 'external' | 'internal' | null
-    internalTargetType?: 'page' | 'path' | null
-    internalPageSlug?: string | null
-    externalUrl?: string | null
-    internalPath?: string | null
-    openInNewTab?: boolean | null
-  } | null
+  link?: ContentLink | null
   subLinks?: MenuLink[] | null
 }
 
@@ -24,11 +17,33 @@ type MenuGroup = {
   links?: MenuLink[] | null
 }
 
+type ContentLink = {
+  linkType?: 'external' | 'internal' | null
+  internalTargetType?: 'page' | 'path' | null
+  internalPageSlug?: string | null
+  externalUrl?: string | null
+  internalPath?: string | null
+  openInNewTab?: boolean | null
+}
+
 export type LayoutSettings = {
   title?: string | null
   logo?: {
     asset?: {_ref?: string} | null
     alt?: string | null
+  } | null
+  header?: {
+    primaryMenu?: MenuGroup | null
+    secondaryMenu?: MenuGroup | null
+    ctaLabel?: string | null
+    ctaLink?: ContentLink | null
+  } | null
+  footer?: {
+    heading?: string | null
+    menu?: MenuGroup | null
+    legalMenu?: MenuGroup | null
+    showDefaultLegalLinks?: boolean | null
+    copyrightText?: string | null
   } | null
   primaryMenu?: MenuGroup | null
   secondaryMenu?: MenuGroup | null
@@ -51,7 +66,11 @@ function MenuLinks({items}: {items?: MenuLink[] | null}) {
     const isExternal = isExternalContentLink(item.link) && item.link?.openInNewTab
 
     return (
-      <li key={key} data-menu-item-id={item.itemId || undefined} className={hasSubLinks ? 'relative group' : undefined}>
+      <li
+        key={key}
+        data-menu-item-id={item.itemId || undefined}
+        className={hasSubLinks ? 'relative group' : undefined}
+      >
         <Link
           href={href}
           className="hover:underline"
@@ -67,9 +86,13 @@ function MenuLinks({items}: {items?: MenuLink[] | null}) {
               if (!subHref) {
                 return null
               }
-              const subIsExternal = isExternalContentLink(subLink.link) && subLink.link?.openInNewTab
+              const subIsExternal =
+                isExternalContentLink(subLink.link) && subLink.link?.openInNewTab
               return (
-                <li key={subLink.itemId || subLink._key || `${key}-sub-${subIndex}`} data-menu-item-id={subLink.itemId || undefined}>
+                <li
+                  key={subLink.itemId || subLink._key || `${key}-sub-${subIndex}`}
+                  data-menu-item-id={subLink.itemId || undefined}
+                >
                   <Link
                     href={subHref}
                     className="block rounded px-2 py-1 text-sm hover:bg-gray-50"
@@ -90,14 +113,26 @@ function MenuLinks({items}: {items?: MenuLink[] | null}) {
 
 export default function Header({settings}: {settings?: LayoutSettings | null}) {
   const logoAssetRef = settings?.logo?.asset?._ref
-  const secondaryLinks = settings?.secondaryMenu?.links || []
-  const primaryLinks = settings?.primaryMenu?.links || []
+  const headerConfig = settings?.header
+  const secondaryMenu = headerConfig?.secondaryMenu || settings?.secondaryMenu
+  const primaryMenu = headerConfig?.primaryMenu || settings?.primaryMenu
+  const secondaryLinks = secondaryMenu?.links || []
+  const primaryLinks = primaryMenu?.links || []
+  const ctaHref =
+    resolveContentLinkHref(headerConfig?.ctaLink || null) ||
+    'https://github.com/sanity-io/sanity-template-nextjs-clean'
+  const ctaLabel = headerConfig?.ctaLabel || 'CreatedbyBlack'
+  const isCtaExternal =
+    isExternalContentLink(headerConfig?.ctaLink || null) && headerConfig?.ctaLink?.openInNewTab
 
   return (
     <header className="fixed z-50 inset-x-0 top-0 bg-white/90 backdrop-blur-lg border-b border-gray-100">
       <div className="container px-2 sm:px-6">
         <div className="flex items-center justify-end gap-5 py-2 border-b border-gray-100 text-xs font-mono text-gray-600">
-          <nav aria-label="Secondary navigation" data-menu-group-id={settings?.secondaryMenu?.menuId || 'secondary'}>
+          <nav
+            aria-label="Secondary navigation"
+            data-menu-group-id={secondaryMenu?.menuId || 'secondary'}
+          >
             <ul role="list" className="flex items-center gap-4 md:gap-6 leading-5 tracking-tight">
               <MenuLinks items={secondaryLinks} />
             </ul>
@@ -115,11 +150,16 @@ export default function Header({settings}: {settings?: LayoutSettings | null}) {
                 mode="contain"
               />
             ) : (
-              <span className="text-lg sm:text-2xl pl-2 font-semibold">{settings?.title || 'Sanity + Next.js'}</span>
+              <span className="text-lg sm:text-2xl pl-2 font-semibold">
+                {settings?.title || 'Brand Logo'}
+              </span>
             )}
           </Link>
 
-          <nav aria-label="Primary navigation" data-menu-group-id={settings?.primaryMenu?.menuId || 'primary'}>
+          <nav
+            aria-label="Primary navigation"
+            data-menu-group-id={primaryMenu?.menuId || 'primary'}
+          >
             <ul
               role="list"
               className="flex items-center gap-4 md:gap-6 leading-5 text-xs sm:text-base tracking-tight font-mono"
@@ -129,11 +169,11 @@ export default function Header({settings}: {settings?: LayoutSettings | null}) {
               <li className="sm:before:w-[1px] sm:before:bg-gray-200 before:block flex sm:gap-4 md:gap-6">
                 <Link
                   className="rounded-full flex gap-4 items-center bg-black hover:bg-blue focus:bg-blue py-2 px-4 justify-center sm:py-3 sm:px-6 text-white transition-colors duration-200"
-                  href="https://github.com/sanity-io/sanity-template-nextjs-clean"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={ctaHref}
+                  target={isCtaExternal ? '_blank' : undefined}
+                  rel={isCtaExternal ? 'noopener noreferrer' : undefined}
                 >
-                  <span className="whitespace-nowrap">View on GitHub</span>
+                  <span className="whitespace-nowrap">{ctaLabel}</span>
                 </Link>
               </li>
             </ul>

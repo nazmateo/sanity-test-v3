@@ -26,12 +26,11 @@ export function resolveOpenGraphImage(
   return {url, alt: (image as {alt?: string})?.alt || '', width, height}
 }
 
-// Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
+// Depending on the type of link, we need to fetch the corresponding page or URL. Otherwise return null.
 type LinkValue = {
-  linkType?: 'href' | 'page' | 'post'
+  linkType?: 'href' | 'page'
   href?: string
   page?: string | null
-  post?: string | null
   openInNewTab?: boolean
 }
 
@@ -49,10 +48,6 @@ export function linkResolver(link: LinkValue | DereferencedLink | undefined) {
     case 'page':
       if (link?.page && typeof link.page === 'string') {
         return `/${link.page}`
-      }
-    case 'post':
-      if (link?.post && typeof link.post === 'string') {
-        return `/posts/${link.post}`
       }
     default:
       return null

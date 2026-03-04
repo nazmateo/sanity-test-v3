@@ -140,7 +140,7 @@ export default defineType({
     defineField({
       name: 'internalPath',
       title: 'Internal Path',
-      description: 'Examples: /about, /contact, /posts/my-post',
+      description: 'Examples: /about, /contact, /services',
       type: 'string',
       hidden: ({parent}) => parent?.linkType !== 'internal' || parent?.internalTargetType !== 'path',
       validation: (Rule) =>

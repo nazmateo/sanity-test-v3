@@ -22,7 +22,7 @@ export const settings = defineType({
   fields: [
     defineField({
       name: 'title',
-      description: 'This field is the title of your blog.',
+      description: 'This field is the title of your website.',
       title: 'Title',
       type: 'string',
       initialValue: demo.title,
@@ -124,9 +124,23 @@ export const settings = defineType({
       ],
     }),
     defineField({
+      name: 'header',
+      title: 'Header',
+      description: 'Default global header configuration.',
+      type: 'headerSettings',
+      group: 'navigation',
+    }),
+    defineField({
+      name: 'footer',
+      title: 'Footer',
+      description: 'Default global footer configuration.',
+      type: 'footerSettings',
+      group: 'navigation',
+    }),
+    defineField({
       name: 'primaryMenu',
       title: 'Primary menu',
-      description: 'Main header menu.',
+      description: 'Legacy field. Prefer Header > Primary menu.',
       type: 'menuGroup',
       group: 'navigation',
       initialValue: {
@@ -146,7 +160,7 @@ export const settings = defineType({
     defineField({
       name: 'secondaryMenu',
       title: 'Secondary menu',
-      description: 'Secondary/utility header menu.',
+      description: 'Legacy field. Prefer Header > Secondary menu.',
       type: 'menuGroup',
       group: 'navigation',
       initialValue: {
@@ -166,7 +180,7 @@ export const settings = defineType({
     defineField({
       name: 'menuGroups',
       title: 'Additional menu groups',
-      description: 'Create any extra menu groups (e.g. footer, sidebar, mobile).',
+      description: 'Legacy field. Create extra menu groups (e.g. footer, sidebar, mobile).',
       type: 'array',
       group: 'navigation',
       of: [defineArrayMember({type: 'menuGroup'})],
@@ -176,7 +190,9 @@ export const settings = defineType({
             return true
           }
 
-          const menuIds = (value as Array<{menuId?: string}>).map((group) => group?.menuId).filter(Boolean)
+          const menuIds = (value as Array<{menuId?: string}>)
+            .map((group) => group?.menuId)
+            .filter(Boolean)
           const duplicates = menuIds.filter((id, index) => menuIds.indexOf(id) !== index)
           if (duplicates.length > 0) {
             return `Duplicate menu IDs found: ${Array.from(new Set(duplicates)).join(', ')}`

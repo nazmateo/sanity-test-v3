@@ -18,6 +18,40 @@ const navigationLinksProjection = /* groq */ `
 export const settingsQuery = defineQuery(`
   *[_type == "settings"][0]{
     ...,
+    header{
+      ...,
+      ctaLink{
+        ...,
+        "internalPageSlug": internalPage->slug.current
+      },
+      primaryMenu{
+        ...,
+        links[]{
+          ${navigationLinksProjection}
+        }
+      },
+      secondaryMenu{
+        ...,
+        links[]{
+          ${navigationLinksProjection}
+        }
+      }
+    },
+    footer{
+      ...,
+      menu{
+        ...,
+        links[]{
+          ${navigationLinksProjection}
+        }
+      },
+      legalMenu{
+        ...,
+        links[]{
+          ${navigationLinksProjection}
+        }
+      }
+    },
     primaryMenu{
       ...,
       links[]{
@@ -38,24 +72,6 @@ export const settingsQuery = defineQuery(`
     }
   }
 `)
-
-const postFields = /* groq */ `
-  _id,
-  "status": select(_originalId in path("drafts.**") => "draft", "published"),
-  "title": coalesce(title, "Untitled"),
-  "slug": slug.current,
-  excerpt,
-  coverImage,
-  "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
-`
-
-const linkReference = /* groq */ `
-  _type == "link" => {
-    "page": page->slug.current,
-    "post": post->slug.current
-  }
-`
 
 const cbButtonWithLinkProjection = /* groq */ `
   _type == "cbButton" => {
@@ -93,6 +109,22 @@ const cbNavigationWithLinksProjection = /* groq */ `
   }
 `
 
+const cbWysiwygWithResolvedLinksProjection = /* groq */ `
+  _type == "cbWysiwyg" => {
+    ...,
+    content[]{
+      ...,
+      markDefs[]{
+        ...,
+        _type == "link" => {
+          ...,
+          "page": page->slug.current
+        }
+      }
+    }
+  }
+`
+
 export const getPageQuery = defineQuery(`
   *[
     _type == 'page' &&
@@ -117,13 +149,15 @@ export const getPageQuery = defineQuery(`
       ${cbButtonWithLinkProjection},
       ${cbButtonsWithLinksProjection},
       ${cbNavigationWithLinksProjection},
+      ${cbWysiwygWithResolvedLinksProjection},
       _type == "cbGroup" => {
         ...,
         children[]{
           ...,
           ${cbButtonWithLinkProjection},
           ${cbButtonsWithLinksProjection},
-          ${cbNavigationWithLinksProjection}
+          ${cbNavigationWithLinksProjection},
+          ${cbWysiwygWithResolvedLinksProjection}
         }
       },
       _type == "cbColumn" => {
@@ -132,7 +166,8 @@ export const getPageQuery = defineQuery(`
           ...,
           ${cbButtonWithLinkProjection},
           ${cbButtonsWithLinksProjection},
-          ${cbNavigationWithLinksProjection}
+          ${cbNavigationWithLinksProjection},
+          ${cbWysiwygWithResolvedLinksProjection}
         }
       },
       _type == "cbCover" => {
@@ -141,7 +176,8 @@ export const getPageQuery = defineQuery(`
           ...,
           ${cbButtonWithLinkProjection},
           ${cbButtonsWithLinksProjection},
-          ${cbNavigationWithLinksProjection}
+          ${cbNavigationWithLinksProjection},
+          ${cbWysiwygWithResolvedLinksProjection}
         }
       },
       _type == "cbColumns" => {
@@ -152,7 +188,8 @@ export const getPageQuery = defineQuery(`
             ...,
             ${cbButtonWithLinkProjection},
             ${cbButtonsWithLinksProjection},
-            ${cbNavigationWithLinksProjection}
+            ${cbNavigationWithLinksProjection},
+            ${cbWysiwygWithResolvedLinksProjection}
           }
         }
       }
@@ -181,13 +218,15 @@ export const homePageQuery = defineQuery(`
       ${cbButtonWithLinkProjection},
       ${cbButtonsWithLinksProjection},
       ${cbNavigationWithLinksProjection},
+      ${cbWysiwygWithResolvedLinksProjection},
       _type == "cbGroup" => {
         ...,
         children[]{
           ...,
           ${cbButtonWithLinkProjection},
           ${cbButtonsWithLinksProjection},
-          ${cbNavigationWithLinksProjection}
+          ${cbNavigationWithLinksProjection},
+          ${cbWysiwygWithResolvedLinksProjection}
         }
       },
       _type == "cbColumn" => {
@@ -196,7 +235,8 @@ export const homePageQuery = defineQuery(`
           ...,
           ${cbButtonWithLinkProjection},
           ${cbButtonsWithLinksProjection},
-          ${cbNavigationWithLinksProjection}
+          ${cbNavigationWithLinksProjection},
+          ${cbWysiwygWithResolvedLinksProjection}
         }
       },
       _type == "cbCover" => {
@@ -205,7 +245,8 @@ export const homePageQuery = defineQuery(`
           ...,
           ${cbButtonWithLinkProjection},
           ${cbButtonsWithLinksProjection},
-          ${cbNavigationWithLinksProjection}
+          ${cbNavigationWithLinksProjection},
+          ${cbWysiwygWithResolvedLinksProjection}
         }
       },
       _type == "cbColumns" => {
@@ -216,7 +257,8 @@ export const homePageQuery = defineQuery(`
             ...,
             ${cbButtonWithLinkProjection},
             ${cbButtonsWithLinksProjection},
-            ${cbNavigationWithLinksProjection}
+            ${cbNavigationWithLinksProjection},
+            ${cbWysiwygWithResolvedLinksProjection}
           }
         }
       }
@@ -262,36 +304,6 @@ export const legalPageBySlugQuery = defineQuery(`
       }
     }
   }
-`)
-
-export const allPostsQuery = defineQuery(`
-  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {
-    ${postFields}
-  }
-`)
-
-export const morePostsQuery = defineQuery(`
-  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {
-    ${postFields}
-  }
-`)
-
-export const postQuery = defineQuery(`
-  *[_type == "post" && slug.current == $slug] [0] {
-    content[]{
-    ...,
-    markDefs[]{
-      ...,
-      ${linkReference}
-    }
-  },
-    ${postFields}
-  }
-`)
-
-export const postPagesSlugs = defineQuery(`
-  *[_type == "post" && defined(slug.current)]
-  {"slug": slug.current}
 `)
 
 export const pagesSlugs = defineQuery(`

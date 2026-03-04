@@ -1,5 +1,35 @@
 [
   {
+    "type": "type",
+    "name": "page.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "page"
+    }
+  },
+  {
     "name": "blockContentTextOnly",
     "type": "type",
     "value": {
@@ -65,27 +95,11 @@
                 },
                 {
                   "type": "string",
-                  "value": "h1"
-                },
-                {
-                  "type": "string",
                   "value": "h2"
                 },
                 {
                   "type": "string",
                   "value": "h3"
-                },
-                {
-                  "type": "string",
-                  "value": "h4"
-                },
-                {
-                  "type": "string",
-                  "value": "h5"
-                },
-                {
-                  "type": "string",
-                  "value": "h6"
                 },
                 {
                   "type": "string",
@@ -119,10 +133,42 @@
               "of": {
                 "type": "object",
                 "attributes": {
+                  "linkType": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "union",
+                      "of": [
+                        {
+                          "type": "string",
+                          "value": "href"
+                        },
+                        {
+                          "type": "string",
+                          "value": "page"
+                        }
+                      ]
+                    },
+                    "optional": true
+                  },
                   "href": {
                     "type": "objectAttribute",
                     "value": {
                       "type": "string"
+                    },
+                    "optional": true
+                  },
+                  "page": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "page.reference"
+                    },
+                    "optional": true
+                  },
+                  "openInNewTab": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "boolean"
                     },
                     "optional": true
                   },
@@ -176,36 +222,6 @@
           }
         }
       }
-    }
-  },
-  {
-    "type": "type",
-    "name": "page.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "page"
     }
   },
   {
@@ -505,6 +521,106 @@
             }
           }
         ]
+      }
+    }
+  },
+  {
+    "name": "footerSettings",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "footerSettings"
+          }
+        },
+        "heading": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "menu": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "menuGroup"
+          },
+          "optional": false
+        },
+        "legalMenu": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "menuGroup"
+          },
+          "optional": true
+        },
+        "showDefaultLegalLinks": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
+        "copyrightText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "headerSettings",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "headerSettings"
+          }
+        },
+        "primaryMenu": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "menuGroup"
+          },
+          "optional": false
+        },
+        "secondaryMenu": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "menuGroup"
+          },
+          "optional": false
+        },
+        "ctaLabel": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "ctaLink": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "cbLink"
+          },
+          "optional": true
+        }
       }
     }
   },
@@ -1825,7 +1941,7 @@
               }
             ]
           },
-          "optional": true
+          "optional": false
         },
         "link": {
           "type": "objectAttribute",
@@ -2105,6 +2221,22 @@
               }
             }
           }
+        },
+        "optional": true
+      },
+      "header": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "headerSettings"
+        },
+        "optional": true
+      },
+      "footer": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "footerSettings"
         },
         "optional": true
       },

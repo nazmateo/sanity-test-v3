@@ -38,8 +38,6 @@ function resolveHref(documentType?: string, slug?: string, language?: string): s
   switch (documentType) {
     case 'homePage':
       return basePath || '/'
-    case 'post':
-      return slug ? `${basePath}/posts/${slug}` : undefined
     case 'page':
       return slug ? `${basePath}/${slug}` : undefined
     case 'legalPage':
@@ -104,10 +102,6 @@ export default defineConfig({
             filter:
               `_type == "legalPage" && slug == "terms-and-conditions" && coalesce(language, "en") == $language`,
           },
-          {
-            route: '/posts/:slug',
-            filter: `_type == "post" && slug.current == $slug || _id == $slug`,
-          },
         ]),
         // Locations Resolver API allows you to define where data is being used in your application. https://www.sanity.io/docs/visual-editing/presentation-resolver-api#8d8bca7bfcd7
         locations: {
@@ -157,24 +151,6 @@ export default defineConfig({
                   href: resolveHref('legalPage', doc?.slug, doc?.language)!,
                 },
               ],
-            }),
-          }),
-          post: defineLocations({
-            select: {
-              title: 'title',
-              slug: 'slug.current',
-            },
-            resolve: (doc) => ({
-              locations: [
-                {
-                  title: doc?.title || 'Untitled',
-                  href: resolveHref('post', doc?.slug)!,
-                },
-                {
-                  title: 'Home',
-                  href: '/',
-                } satisfies DocumentLocation,
-              ].filter(Boolean) as DocumentLocation[],
             }),
           }),
         },

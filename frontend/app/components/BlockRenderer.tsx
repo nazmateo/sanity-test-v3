@@ -1,6 +1,7 @@
 import CTA from '@/app/components/Cta'
 import InfoSection from '@/app/components/InfoSection'
-import {PortableText} from 'next-sanity'
+import CustomPortableText from '@/app/components/PortableText'
+import type {PortableTextBlock} from 'next-sanity'
 import {Button} from '@/app/components/atoms/button'
 import {Heading} from '@/app/components/atoms/heading'
 import {Html} from '@/app/components/atoms/html'
@@ -340,7 +341,9 @@ export default function BlockRenderer({
           data-sanity={blockDataAttr}
         >
           <div className="prose">
-            <PortableText value={Array.isArray(block.content) ? (block.content as any[]) : []} />
+            <CustomPortableText
+              value={Array.isArray(block.content) ? (block.content as PortableTextBlock[]) : []}
+            />
           </div>
         </BlockSlot>
       )

@@ -24,6 +24,8 @@ import cbNavigationLink from './objects/navigation-link'
 import cbNavigation from './objects/navigation'
 import cbParagraph from './objects/paragraph'
 import cbWysiwyg from './objects/wysiwyg'
+import {headerSettings} from './objects/headerSettings'
+import {footerSettings} from './objects/footerSettings'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
@@ -55,6 +57,8 @@ export const schemaTypes = [
   cbNavigation,
   cbParagraph,
   cbWysiwyg,
+  headerSettings,
+  footerSettings,
   blockContent,
   blockContentTextOnly,
 ]
