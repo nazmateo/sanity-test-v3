@@ -2,7 +2,7 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
-import {Inter, IBM_Plex_Mono, Noto_Sans_Arabic} from 'next/font/google'
+import {IBM_Plex_Mono, Noto_Sans_Arabic, SUSE} from 'next/font/google'
 import {draftMode} from 'next/headers'
 import Script from 'next/script'
 import {toPlainText} from 'next-sanity'
@@ -10,12 +10,10 @@ import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
 
 import DraftModeToast from '@/app/components/DraftModeToast'
-import Footer from '@/app/components/Footer'
-import Header from '@/app/components/Header'
 import LocaleDocumentController from '@/app/components/LocaleDocumentController'
 import * as demo from '@/sanity/lib/demo'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
-import {layoutQuery, settingsQuery} from '@/sanity/lib/queries'
+import {settingsQuery} from '@/sanity/lib/queries'
 import type {LayoutSettings} from '@/sanity/lib/settings-types'
 import {normalizeInlineScript, resolveOpenGraphImage} from '@/sanity/lib/utils'
 import {handleError} from '@/app/client-utils'
@@ -77,8 +75,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const inter = Inter({
-  variable: '--font-inter',
+const suse = SUSE({
+  variable: '--font-suse',
+  weight: ['400', '500'],
   subsets: ['latin'],
   display: 'swap',
 })
@@ -97,20 +96,14 @@ const notoSansArabic = Noto_Sans_Arabic({
 })
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
-  const [{isEnabled: isDraftMode}, {data: layoutData}] = await Promise.all([
+  const [{isEnabled: isDraftMode}, {data: settings}] = await Promise.all([
     draftMode(),
     sanityFetch({
-      query: layoutQuery,
+      query: settingsQuery,
     }),
   ])
 
-  const layoutSettings = layoutData
-    ? ({
-        ...(layoutData.settings || {}),
-        header: layoutData.header || null,
-        footer: layoutData.footer || null,
-      } as LayoutSettings)
-    : null
+  const layoutSettings = (settings as LayoutSettings | null) || null
   const lang = 'en-US'
   const gtmScript = normalizeInlineScript(layoutSettings?.gtmScript)
   const gaScript = normalizeInlineScript(layoutSettings?.gaScript)
@@ -120,7 +113,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
       <html
         lang={lang}
         dir="ltr"
-        className={`${inter.variable} ${ibmPlexMono.variable} ${notoSansArabic.variable} bg-background text-foreground`}
+        className={`${suse.variable} ${ibmPlexMono.variable} ${notoSansArabic.variable} bg-background text-foreground`}
       >
       <body className="bg-background text-foreground">
         <LocaleDocumentController />
@@ -143,9 +136,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           )}
           {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
           <SanityLive onError={handleError} />
-          <Header settings={layoutSettings} />
           <main>{children}</main>
-          <Footer settings={layoutSettings} />
         </section>
         <SpeedInsights />
       </body>

@@ -1,3 +1,5 @@
+import type {CropData, HotspotData} from 'sanity-image'
+
 export type CbButton = {
   _key?: string
   _type: 'cbButton'
@@ -41,8 +43,8 @@ export type CbMedia = {
   image?: {
     asset?: {_ref?: string} | null
     alt?: string | null
-    crop?: any
-    hotspot?: any
+    crop?: CropData
+    hotspot?: HotspotData
   } | null
   videoFile?: {
     asset?: {_ref?: string} | null
@@ -116,7 +118,7 @@ export type LegacyCallToAction = {
   } | null
   image?: {
     asset?: {_ref?: string}
-    crop?: any
+    crop?: CropData
   } | null
   theme?: 'dark' | 'light' | null
   contentAlignment?: 'imageFirst' | 'textFirst' | null
@@ -182,6 +184,8 @@ export type PageDocumentForBuilder = {
   _type: string
   name?: string | null
   slug?: {current?: string | null} | null
+  headerVariant?: 'positive' | 'negative' | null
+  footerVariant?: 'positive' | 'negative' | null
   pageBuilder?: PageBuilderSection[] | null
 } | null
 

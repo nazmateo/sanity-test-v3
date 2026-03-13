@@ -2,6 +2,40 @@ import {defineField, defineType} from 'sanity'
 
 export const headerSettingsFields = [
   defineField({
+    name: 'positiveLogo',
+    title: 'Positive logo',
+    description: 'Logo used on light header variants.',
+    type: 'image',
+    options: {
+      hotspot: true,
+    },
+    fields: [
+      defineField({
+        name: 'alt',
+        title: 'Alternative text',
+        type: 'string',
+        validation: (rule) => rule.required().warning('Logo alt text improves accessibility.'),
+      }),
+    ],
+  }),
+  defineField({
+    name: 'negativeLogo',
+    title: 'Negative logo',
+    description: 'Logo used on dark header variants.',
+    type: 'image',
+    options: {
+      hotspot: true,
+    },
+    fields: [
+      defineField({
+        name: 'alt',
+        title: 'Alternative text',
+        type: 'string',
+        validation: (rule) => rule.required().warning('Logo alt text improves accessibility.'),
+      }),
+    ],
+  }),
+  defineField({
     name: 'primaryMenu',
     title: 'Primary menu',
     description: 'Main header menu.',
@@ -40,20 +74,16 @@ export const headerSettingsFields = [
       }),
   }),
   defineField({
-    name: 'ctaLabel',
-    title: 'Header CTA label',
+    name: 'languageToggleLabelEn',
+    title: 'Language toggle label (EN page)',
     type: 'string',
-    initialValue: 'createdByBlack',
+    initialValue: 'AR',
   }),
   defineField({
-    name: 'ctaLink',
-    title: 'Header CTA link',
-    type: 'cbLink',
-    initialValue: {
-      linkType: 'external',
-      externalUrl: 'https://createdbyblack.com',
-      openInNewTab: true,
-    },
+    name: 'languageToggleLabelAe',
+    title: 'Language toggle label (AE page)',
+    type: 'string',
+    initialValue: 'EN',
   }),
 ]
 

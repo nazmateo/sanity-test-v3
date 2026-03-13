@@ -1,5 +1,13 @@
 import {defineQuery} from 'next-sanity'
 
+const dropdownSectionLinksProjection = /* groq */ `
+  ...,
+  link{
+    ...,
+    "internalPageSlug": internalPage->slug.current
+  }
+`
+
 const navigationLinksProjection = /* groq */ `
   ...,
   link{
@@ -12,16 +20,21 @@ const navigationLinksProjection = /* groq */ `
       ...,
       "internalPageSlug": internalPage->slug.current
     }
+  },
+  dropdown{
+    ...,
+    sections[]{
+      ...,
+      links[]{
+        ${dropdownSectionLinksProjection}
+      }
+    }
   }
 `
 
 const headerProjection = /* groq */ `
   *[_type == "header"][0]{
     ...,
-    ctaLink{
-      ...,
-      "internalPageSlug": internalPage->slug.current
-    },
     primaryMenu{
       ...,
       links[]{
@@ -37,10 +50,12 @@ const headerProjection = /* groq */ `
   }
 `
 
+export const headerQuery = defineQuery(headerProjection)
+
 const footerProjection = /* groq */ `
   *[_type == "footer"][0]{
     ...,
-    menu{
+    navigationGroups[]{
       ...,
       links[]{
         ${navigationLinksProjection}
@@ -55,6 +70,8 @@ const footerProjection = /* groq */ `
   }
 `
 
+export const footerQuery = defineQuery(footerProjection)
+
 export const settingsQuery = defineQuery(`
   *[_type == "settings"][0]{
     ...
@@ -66,7 +83,6 @@ export const layoutQuery = defineQuery(`
     "settings": *[_type == "settings"][0]{
       ...
     },
-    "header": ${headerProjection},
     "footer": ${footerProjection}
   }
 `)
@@ -134,6 +150,8 @@ export const getPageQuery = defineQuery(`
     name,
     language,
     slug,
+    headerVariant,
+    footerVariant,
     seo{
       ...,
       ogImage{
@@ -203,6 +221,8 @@ export const homePageQuery = defineQuery(`
     _id,
     _type,
     name,
+    headerVariant,
+    footerVariant,
     seo{
       ...,
       ogImage{
@@ -291,6 +311,8 @@ export const legalPageBySlugQuery = defineQuery(`
   ][0]{
     _id,
     title,
+    headerVariant,
+    footerVariant,
     slug,
     language,
     content,

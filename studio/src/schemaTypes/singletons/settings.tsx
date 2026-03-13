@@ -123,6 +123,64 @@ export const settings = defineType({
       ],
     }),
     defineField({
+      name: 'officeHeading',
+      title: 'Footer office heading',
+      type: 'string',
+      group: 'general',
+      initialValue: 'Albatha Head Offices',
+    }),
+    defineField({
+      name: 'officeAddresses',
+      title: 'Footer office addresses',
+      description: 'Addresses shown in the footer office details block.',
+      type: 'array',
+      group: 'general',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'officeAddress',
+          fields: [
+            defineField({
+              name: 'address',
+              title: 'Address',
+              type: 'text',
+              rows: 3,
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'address',
+            },
+            prepare({title}) {
+              const normalized = typeof title === 'string' ? title.replace(/\s+/g, ' ').trim() : ''
+              return {
+                title: normalized || 'Address',
+              }
+            },
+          },
+        }),
+      ],
+      validation: (rule) => rule.max(4),
+    }),
+    defineField({
+      name: 'contactPhone',
+      title: 'Footer contact phone',
+      type: 'string',
+      group: 'general',
+    }),
+    defineField({
+      name: 'contactEmail',
+      title: 'Footer contact email',
+      type: 'string',
+      group: 'general',
+      validation: (rule) =>
+        rule.custom((value) => {
+          if (!value) return true
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? true : 'Enter a valid email address.'
+        }),
+    }),
+    defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
       type: 'image',

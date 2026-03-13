@@ -13,6 +13,13 @@
  */
 
 // Source: ../sanity.schema.json
+export type PageReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'page'
+}
+
 export type BlockContentTextOnly = Array<{
   children?: Array<{
     marks?: Array<string>
@@ -20,10 +27,13 @@ export type BlockContentTextOnly = Array<{
     _type: 'span'
     _key: string
   }>
-  style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+  style?: 'normal' | 'h2' | 'h3' | 'blockquote'
   listItem?: 'bullet' | 'number'
   markDefs?: Array<{
+    linkType?: 'href' | 'page'
     href?: string
+    page?: PageReference
+    openInNewTab?: boolean
     _type: 'link'
     _key: string
   }>
@@ -31,13 +41,6 @@ export type BlockContentTextOnly = Array<{
   _type: 'block'
   _key: string
 }>
-
-export type PageReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'page'
-}
 
 export type SanityImageAssetReference = {
   _ref: string
@@ -78,23 +81,6 @@ export type BlockContent = Array<
     }
 >
 
-export type FooterSettings = {
-  _type: 'footerSettings'
-  heading?: string
-  menu: MenuGroup
-  legalMenu?: MenuGroup
-  showDefaultLegalLinks?: boolean
-  copyrightText?: string
-}
-
-export type HeaderSettings = {
-  _type: 'headerSettings'
-  primaryMenu: MenuGroup
-  secondaryMenu: MenuGroup
-  ctaLabel?: string
-  ctaLink?: CbLink
-}
-
 export type CbWysiwyg = {
   _type: 'cbWysiwyg'
   content?: BlockContentTextOnly
@@ -131,11 +117,31 @@ export type MenuLink = {
   _type: 'menuLink'
   itemId: string
   label: string
-  link: CbLink
+  link?: CbLink
+  dropdown?: MenuDropdown
   subLinks?: Array<
     {
       _key: string
     } & MenuSubLink
+  >
+}
+
+export type MenuDropdownSection = {
+  _type: 'menuDropdownSection'
+  title: string
+  links: Array<
+    {
+      _key: string
+    } & MenuSubLink
+  >
+}
+
+export type MenuDropdown = {
+  _type: 'menuDropdown'
+  sections: Array<
+    {
+      _key: string
+    } & MenuDropdownSection
   >
 }
 
@@ -350,6 +356,63 @@ export type CbButton = {
   link?: CbLink
 }
 
+export type Footer = {
+  _id: string
+  _type: 'footer'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  heading?: string
+  menu: MenuGroup
+  legalMenu?: MenuGroup
+  showDefaultLegalLinks?: boolean
+  copyrightText?: string
+}
+
+export type Header = {
+  _id: string
+  _type: 'header'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  positiveLogo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
+  negativeLogo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
+  primaryMenu: MenuGroup
+  secondaryMenu: MenuGroup
+  languageToggleLabelEn?: string
+  languageToggleLabelAe?: string
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
+}
+
 export type Settings = {
   _id: string
   _type: 'settings'
@@ -386,15 +449,6 @@ export type Settings = {
     alt: string
     _type: 'image'
   }
-  header?: HeaderSettings
-  footer?: FooterSettings
-  primaryMenu: MenuGroup
-  secondaryMenu: MenuGroup
-  menuGroups?: Array<
-    {
-      _key: string
-    } & MenuGroup
-  >
   ogImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -407,22 +461,6 @@ export type Settings = {
   gtmScript?: string
   gaScript?: string
   cookiePolicyScript?: string
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type SanityAssistInstructionTask = {
@@ -605,6 +643,7 @@ export type HomePage = {
   _rev: string
   name: string
   language: string
+  headerVariant: 'positive' | 'negative'
   pageBuilder?: Array<
     | ({
         _key: string
@@ -653,6 +692,7 @@ export type LegalPage = {
   title: string
   slug: 'privacy-policy' | 'terms-and-conditions'
   language: string
+  headerVariant: 'positive' | 'negative'
   content: BlockContent
   structuredData?: string
   seo?: {
@@ -681,6 +721,7 @@ export type Page = {
   name: string
   slug: Slug
   language: string
+  headerVariant: 'positive' | 'negative'
   pageBuilder?: Array<
     | ({
         _key: string
@@ -824,18 +865,18 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
-  | BlockContentTextOnly
   | PageReference
+  | BlockContentTextOnly
   | SanityImageAssetReference
   | BlockContent
-  | FooterSettings
-  | HeaderSettings
   | CbWysiwyg
   | CbParagraph
   | CbNavigation
   | CbNavigationLink
   | MenuSubLink
   | MenuLink
+  | MenuDropdownSection
+  | MenuDropdown
   | MenuGroup
   | SanityFileAssetReference
   | CbMedia
@@ -851,9 +892,11 @@ export type AllSanitySchemaTypes =
   | CbColumn
   | CbButtons
   | CbButton
-  | Settings
+  | Footer
+  | Header
   | SanityImageCrop
   | SanityImageHotspot
+  | Settings
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations

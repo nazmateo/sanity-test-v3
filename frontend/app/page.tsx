@@ -1,12 +1,16 @@
 import type {Metadata, ResolvingMetadata} from 'next'
+import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
 
 import type {BuilderPageData} from '@/app/lib/page-types'
+import Footer from '@/app/components/Footer'
+import Header from '@/app/components/Header'
 import {PageOnboarding} from '@/app/components/Onboarding'
 import PageBuilderPage from '@/app/components/PageBuilder'
 import {buildSeoMetadata} from '@/app/lib/seo-metadata'
 import {sanityFetch} from '@/sanity/lib/live'
 import {DEFAULT_LANGUAGE} from '@/sanity/lib/i18n'
-import {homePageLanguagesQuery, homePageQuery} from '@/sanity/lib/queries'
+import {headerQuery, homePageLanguagesQuery, homePageQuery, layoutQuery} from '@/sanity/lib/queries'
+import type {HeaderSettings, LayoutData} from '@/sanity/lib/settings-types'
 import {parseJsonObject, resolveOpenGraphImage} from '@/sanity/lib/utils'
 
 export async function generateMetadata(_: unknown, parent: ResolvingMetadata): Promise<Metadata> {
@@ -35,7 +39,7 @@ export async function generateMetadata(_: unknown, parent: ResolvingMetadata): P
       ? previousImages
       : [previousImages]
     : []
-  const ogImage = resolveOpenGraphImage((pageWithSeo?.seo?.ogImage as any) || undefined)
+  const ogImage = resolveOpenGraphImage((pageWithSeo?.seo?.ogImage as SanityImageSource | null) || undefined)
   const title = pageWithSeo?.seo?.metaTitle || pageWithSeo?.name
   const description = pageWithSeo?.seo?.metaDescription || pageWithSeo?.name
   const discoveredLanguages =
@@ -57,11 +61,21 @@ export async function generateMetadata(_: unknown, parent: ResolvingMetadata): P
 }
 
 export default async function HomePage() {
-  const {data: page} = await sanityFetch({
-    query: homePageQuery,
-    params: {language: DEFAULT_LANGUAGE},
-  })
+  const [{data: page}, {data: header}, {data: layout}] = await Promise.all([
+    sanityFetch({
+      query: homePageQuery,
+      params: {language: DEFAULT_LANGUAGE},
+    }),
+    sanityFetch({
+      query: headerQuery,
+    }),
+    sanityFetch({
+      query: layoutQuery,
+    }),
+  ])
   const pageWithSeo = page as BuilderPageData | null
+  const headerData = header as HeaderSettings | null
+  const layoutData = layout as LayoutData
   const customStructuredData = parseJsonObject(pageWithSeo?.structuredData)
 
   if (!pageWithSeo?._id) {
@@ -77,6 +91,7 @@ export default async function HomePage() {
       {customStructuredData ? (
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(customStructuredData)}} />
       ) : null}
+      <Header header={headerData} variant={pageWithSeo.headerVariant || 'negative'} />
       <div className="my-12 lg:my-24">
         <div className="container">
           <div className="border-b border-border pb-6">
@@ -87,6 +102,11 @@ export default async function HomePage() {
         </div>
         <PageBuilderPage page={page as BuilderPageData} />
       </div>
+      <Footer
+        footer={layoutData?.footer || null}
+        settings={layoutData?.settings || null}
+        variant={pageWithSeo.footerVariant || 'negative'}
+      />
     </>
   )
 }

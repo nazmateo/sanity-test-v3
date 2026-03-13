@@ -24,6 +24,8 @@ export type BuilderPageData = NonNullable<PageDocumentForBuilder> & {
 export type LegalPageData = {
   _id?: string
   title?: string
+  headerVariant?: 'positive' | 'negative' | null
+  footerVariant?: 'positive' | 'negative' | null
   content?: unknown[]
   seo?: SeoFields
 }

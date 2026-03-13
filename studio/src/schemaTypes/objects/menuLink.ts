@@ -22,12 +22,25 @@ export const menuLink = defineType({
       name: 'link',
       title: 'Link',
       type: 'cbLink',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as {dropdown?: unknown} | undefined
+          if (!value && !parent?.dropdown) {
+            return 'Link is required when no dropdown is configured.'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'dropdown',
+      title: 'Dropdown',
+      description: 'Structured dropdown content for header navigation.',
+      type: 'menuDropdown',
     }),
     defineField({
       name: 'subLinks',
       title: 'Sub links',
-      description: 'Only used for navigation settings menus.',
+      description: 'Legacy simple sub links. Prefer Dropdown for new header menus.',
       type: 'array',
       of: [defineArrayMember({type: 'menuSubLink'})],
     }),

@@ -48,6 +48,36 @@ export const legalPage = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'headerVariant',
+      title: 'Header variant',
+      type: 'string',
+      group: 'general',
+      initialValue: 'positive',
+      options: {
+        list: [
+          {title: 'Positive', value: 'positive'},
+          {title: 'Negative', value: 'negative'},
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'footerVariant',
+      title: 'Footer variant',
+      type: 'string',
+      group: 'general',
+      initialValue: 'positive',
+      options: {
+        list: [
+          {title: 'Positive', value: 'positive'},
+          {title: 'Negative', value: 'negative'},
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'blockContent',
