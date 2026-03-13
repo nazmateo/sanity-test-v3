@@ -15,42 +15,12 @@ const navigationLinksProjection = /* groq */ `
   }
 `
 
-export const settingsQuery = defineQuery(`
-  *[_type == "settings"][0]{
+const headerProjection = /* groq */ `
+  *[_type == "header"][0]{
     ...,
-    header{
+    ctaLink{
       ...,
-      ctaLink{
-        ...,
-        "internalPageSlug": internalPage->slug.current
-      },
-      primaryMenu{
-        ...,
-        links[]{
-          ${navigationLinksProjection}
-        }
-      },
-      secondaryMenu{
-        ...,
-        links[]{
-          ${navigationLinksProjection}
-        }
-      }
-    },
-    footer{
-      ...,
-      menu{
-        ...,
-        links[]{
-          ${navigationLinksProjection}
-        }
-      },
-      legalMenu{
-        ...,
-        links[]{
-          ${navigationLinksProjection}
-        }
-      }
+      "internalPageSlug": internalPage->slug.current
     },
     primaryMenu{
       ...,
@@ -63,13 +33,41 @@ export const settingsQuery = defineQuery(`
       links[]{
         ${navigationLinksProjection}
       }
+    }
+  }
+`
+
+const footerProjection = /* groq */ `
+  *[_type == "footer"][0]{
+    ...,
+    menu{
+      ...,
+      links[]{
+        ${navigationLinksProjection}
+      }
     },
-    menuGroups[]{
+    legalMenu{
       ...,
       links[]{
         ${navigationLinksProjection}
       }
     }
+  }
+`
+
+export const settingsQuery = defineQuery(`
+  *[_type == "settings"][0]{
+    ...
+  }
+`)
+
+export const layoutQuery = defineQuery(`
+  {
+    "settings": *[_type == "settings"][0]{
+      ...
+    },
+    "header": ${headerProjection},
+    "footer": ${footerProjection}
   }
 `)
 

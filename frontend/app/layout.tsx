@@ -15,7 +15,7 @@ import Header from '@/app/components/Header'
 import LocaleDocumentController from '@/app/components/LocaleDocumentController'
 import * as demo from '@/sanity/lib/demo'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
-import {settingsQuery} from '@/sanity/lib/queries'
+import {layoutQuery, settingsQuery} from '@/sanity/lib/queries'
 import type {LayoutSettings} from '@/sanity/lib/settings-types'
 import {normalizeInlineScript, resolveOpenGraphImage} from '@/sanity/lib/utils'
 import {handleError} from '@/app/client-utils'
@@ -97,18 +97,20 @@ const notoSansArabic = Noto_Sans_Arabic({
 })
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
-  const [{isEnabled: isDraftMode}, {data: settings}] = await Promise.all([
+  const [{isEnabled: isDraftMode}, {data: layoutData}] = await Promise.all([
     draftMode(),
     sanityFetch({
-      query: settingsQuery,
+      query: layoutQuery,
     }),
   ])
 
-  const layoutSettings = settings as (LayoutSettings & {
-    gtmScript?: string | null
-    gaScript?: string | null
-    cookiePolicyScript?: string | null
-  }) | null
+  const layoutSettings = layoutData
+    ? ({
+        ...(layoutData.settings || {}),
+        header: layoutData.header || null,
+        footer: layoutData.footer || null,
+      } as LayoutSettings)
+    : null
   const lang = 'en-US'
   const gtmScript = normalizeInlineScript(layoutSettings?.gtmScript)
   const gaScript = normalizeInlineScript(layoutSettings?.gaScript)

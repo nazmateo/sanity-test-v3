@@ -1,7 +1,7 @@
 Purpose:
 Convert one Figma section/component into a reusable React component for a Next.js App Router codebase using existing tokens.
 
-Use the shared input contract from `references/input-contract.md`.
+Use the shared input contract from `ai-docs/references/input-contract.md`.
 
 Task:
 

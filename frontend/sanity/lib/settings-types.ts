@@ -33,7 +33,7 @@ export type LayoutSettings = {
     showDefaultLegalLinks?: boolean | null
     copyrightText?: string | null
   } | null
-  primaryMenu?: MenuGroup | null
-  secondaryMenu?: MenuGroup | null
-  menuGroups?: MenuGroup[] | null
+  gtmScript?: string | null
+  gaScript?: string | null
+  cookiePolicyScript?: string | null
 }

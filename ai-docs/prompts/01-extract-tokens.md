@@ -1,7 +1,7 @@
 Purpose:
 Extract and normalize global design tokens from Figma into Tailwind theme extensions for a Next.js App Router project.
 
-Use the shared input contract from `references/input-contract.md`.
+Use the shared input contract from `ai-docs/references/input-contract.md`.
 
 Task:
 - Read global Variables and Styles from `PROJECT_FIGMA_URL`.

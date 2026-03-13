@@ -15,7 +15,6 @@ export const settings = defineType({
   icon: CogIcon,
   groups: [
     {name: 'general', title: 'General', default: true},
-    {name: 'navigation', title: 'Navigation'},
     {name: 'seo', title: 'SEO'},
     {name: 'scripts', title: 'Scripts & Tracking'},
   ],
@@ -122,88 +121,6 @@ export const settings = defineType({
           validation: (rule) => rule.required().warning('Logo alt text improves accessibility.'),
         }),
       ],
-    }),
-    defineField({
-      name: 'header',
-      title: 'Header',
-      description: 'Default global header configuration.',
-      type: 'headerSettings',
-      group: 'navigation',
-    }),
-    defineField({
-      name: 'footer',
-      title: 'Footer',
-      description: 'Default global footer configuration.',
-      type: 'footerSettings',
-      group: 'navigation',
-    }),
-    defineField({
-      name: 'primaryMenu',
-      title: 'Primary menu',
-      description: 'Legacy field. Prefer Header > Primary menu.',
-      type: 'menuGroup',
-      group: 'navigation',
-      initialValue: {
-        menuId: 'primary',
-        title: 'Primary',
-      },
-      validation: (rule) =>
-        rule.required().custom((value) => {
-          const menu = value as {menuId?: string} | undefined
-          if (!menu) return true
-          if (menu.menuId !== 'primary') {
-            return 'Primary menu must use menuId "primary".'
-          }
-          return true
-        }),
-    }),
-    defineField({
-      name: 'secondaryMenu',
-      title: 'Secondary menu',
-      description: 'Legacy field. Prefer Header > Secondary menu.',
-      type: 'menuGroup',
-      group: 'navigation',
-      initialValue: {
-        menuId: 'secondary',
-        title: 'Secondary',
-      },
-      validation: (rule) =>
-        rule.required().custom((value) => {
-          const menu = value as {menuId?: string} | undefined
-          if (!menu) return true
-          if (menu.menuId !== 'secondary') {
-            return 'Secondary menu must use menuId "secondary".'
-          }
-          return true
-        }),
-    }),
-    defineField({
-      name: 'menuGroups',
-      title: 'Additional menu groups',
-      description: 'Legacy field. Create extra menu groups (e.g. footer, sidebar, mobile).',
-      type: 'array',
-      group: 'navigation',
-      of: [defineArrayMember({type: 'menuGroup'})],
-      validation: (rule) =>
-        rule.custom((value) => {
-          if (!Array.isArray(value)) {
-            return true
-          }
-
-          const menuIds = (value as Array<{menuId?: string}>)
-            .map((group) => group?.menuId)
-            .filter(Boolean)
-          const duplicates = menuIds.filter((id, index) => menuIds.indexOf(id) !== index)
-          if (duplicates.length > 0) {
-            return `Duplicate menu IDs found: ${Array.from(new Set(duplicates)).join(', ')}`
-          }
-
-          if (menuIds.includes('primary') || menuIds.includes('secondary')) {
-            return 'Use reserved IDs "primary" and "secondary" only in Primary menu / Secondary menu fields.'
-          }
-
-          return true
-        }),
     }),
     defineField({
       name: 'ogImage',

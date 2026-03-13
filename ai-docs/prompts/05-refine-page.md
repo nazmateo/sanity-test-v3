@@ -1,7 +1,7 @@
 Purpose:
 Refine generated section/page code to align with tokens, typography, responsiveness, and interaction requirements.
 
-Use the shared input contract from `references/input-contract.md`.
+Use the shared input contract from `ai-docs/references/input-contract.md`.
 
 Task:
 - Polish existing code with minimal diffs.

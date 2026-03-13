@@ -1,7 +1,7 @@
 Purpose:
 Set up project fonts for Next.js App Router + Tailwind using extracted design tokens.
 
-Use the shared input contract from `references/input-contract.md`.
+Use the shared input contract from `ai-docs/references/input-contract.md`.
 
 Task:
 - Configure font loading and ensure tokenized font families resolve at runtime.

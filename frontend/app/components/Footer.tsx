@@ -5,15 +5,14 @@ import {isExternalContentLink, resolveContentLinkHref} from '@/sanity/lib/utils'
 
 export default function Footer({settings}: {settings?: LayoutSettings | null}) {
   const footerConfig = settings?.footer
-  const footerMenuGroup = settings?.menuGroups?.find((group) => group?.menuId === 'footer')
-  const footerLinks = footerConfig?.menu?.links || footerMenuGroup?.links
+  const footerLinks = footerConfig?.menu?.links
   const legalLinks = footerConfig?.legalMenu?.links || []
   const showDefaultLegalLinks = footerConfig?.showDefaultLegalLinks ?? true
 
   return (
     <footer
       className="relative bg-surface"
-      data-menu-group-id={footerConfig?.menu?.menuId || footerMenuGroup?.menuId || undefined}
+      data-menu-group-id={footerConfig?.menu?.menuId || undefined}
     >
       <div className="absolute inset-0 bg-[url(/images/tile-grid-black.png)] bg-size-[17px] opacity-20 bg-position-[0_1]" />
       <div className="container relative">

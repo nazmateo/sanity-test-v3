@@ -68,8 +68,8 @@ function MenuLinks({items}: {items?: MenuLink[] | null}) {
 export default function Header({settings}: {settings?: LayoutSettings | null}) {
   const logoAssetRef = settings?.logo?.asset?._ref
   const headerConfig = settings?.header
-  const secondaryMenu = headerConfig?.secondaryMenu || settings?.secondaryMenu
-  const primaryMenu = headerConfig?.primaryMenu || settings?.primaryMenu
+  const secondaryMenu = headerConfig?.secondaryMenu
+  const primaryMenu = headerConfig?.primaryMenu
   const secondaryLinks = secondaryMenu?.links || []
   const primaryLinks = primaryMenu?.links || []
   const ctaHref =
