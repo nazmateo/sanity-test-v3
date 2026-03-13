@@ -24,6 +24,7 @@ Rules:
 - Use Tailwind utility classes in JSX and consume shared values through existing/new tokens; do not rely on component-specific class selectors defined in `globals.css`.
 - Keep shared non-trivial types in separate importable files when they are reused outside the component.
 - Add correct `data-sanity` paths and preserve `_key`/identity fields required for Visual Editing drag and drop.
+- Use stegaClean for the texts or add some visual padding to the array child to create space for the “draggable” area.
 - If the section contains nested reorderable children, follow Sanity's nested array pattern by wrapping child arrays inside `object` types. Reference: https://www.sanity.io/docs/visual-editing/enabling-drag-and-drop
 - Default nesting shape for this repo:
   - `pageBuilder[]` for sections
@@ -51,3 +52,4 @@ Required Output:
 6. Manual assets needed (if any).
 7. Arbitrary value justifications (if any).
 8. Drag-and-drop verification notes, including nested array behavior when applicable.
+

@@ -13,6 +13,8 @@ import cbColumns from './objects/columns'
 import cbCover from './objects/cover'
 import cbGroup from './objects/group'
 import cbHeading from './objects/heading'
+import heroPhrase from './objects/heroPhrase'
+import heroSection from './objects/heroSection'
 import cbHtml from './objects/html'
 import cbImage from './objects/image'
 import cbLink from './objects/link'
@@ -48,6 +50,8 @@ export const schemaTypes = [
   cbCover,
   cbGroup,
   cbHeading,
+  heroPhrase,
+  heroSection,
   cbHtml,
   cbImage,
   cbLink,

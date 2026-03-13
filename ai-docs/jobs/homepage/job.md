@@ -52,7 +52,7 @@ DEPENDENCIES: N/A
 ```md
 1. SECTION_NAME: Hero
    TARGET_NODE_URL: https://www.figma.com/design/SHmyeVzNQcnZ5cf20V3uIh/Albatha-Website?node-id=1-1000&m=dev
-   NOTES: Schema will have video field, heading (h1), text (p), and 3 hero phrases (p), hero phrases will have animation will reveal from right to left fade in cascaing delay of 1 second starting from the top. Last is a know more button that when clicked scrolls to designated path. Important: Disregard the 'menu' node as this is already the header component.
+   NOTES: Schema will have video field, heading (h1), text (p), and 3 hero phrases (p), hero phrases will have animation will reveal from right to left fade in cascaing delay of 1 second starting from the top. Last is a know more button that when clicked scrolls to designated path. Know more button is fixed on the bottom part of the section. Important: A. Disregard the 'menu' node as this is already the header component. B. H1 and p should be inside array so it can be dragged and drop positions in presentation tool.
    STATUS: in-progress
 
 2. SECTION_NAME: About Us

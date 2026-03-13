@@ -362,11 +362,46 @@ export type Footer = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  heading?: string
-  menu: MenuGroup
+  positiveLogo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
+  negativeLogo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt: string
+    _type: 'image'
+  }
+  navigationGroups: Array<
+    {
+      _key: string
+    } & MenuGroup
+  >
   legalMenu?: MenuGroup
   showDefaultLegalLinks?: boolean
   copyrightText?: string
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Header = {
@@ -395,22 +430,6 @@ export type Header = {
   secondaryMenu: MenuGroup
   languageToggleLabelEn?: string
   languageToggleLabelAe?: string
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type Settings = {
@@ -449,6 +468,14 @@ export type Settings = {
     alt: string
     _type: 'image'
   }
+  officeHeading?: string
+  officeAddresses?: Array<{
+    address: string
+    _type: 'officeAddress'
+    _key: string
+  }>
+  contactPhone?: string
+  contactEmail?: string
   ogImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -644,6 +671,7 @@ export type HomePage = {
   name: string
   language: string
   headerVariant: 'positive' | 'negative'
+  footerVariant: 'positive' | 'negative'
   pageBuilder?: Array<
     | ({
         _key: string
@@ -693,6 +721,7 @@ export type LegalPage = {
   slug: 'privacy-policy' | 'terms-and-conditions'
   language: string
   headerVariant: 'positive' | 'negative'
+  footerVariant: 'positive' | 'negative'
   content: BlockContent
   structuredData?: string
   seo?: {
@@ -722,6 +751,7 @@ export type Page = {
   slug: Slug
   language: string
   headerVariant: 'positive' | 'negative'
+  footerVariant: 'positive' | 'negative'
   pageBuilder?: Array<
     | ({
         _key: string
@@ -893,9 +923,9 @@ export type AllSanitySchemaTypes =
   | CbButtons
   | CbButton
   | Footer
-  | Header
   | SanityImageCrop
   | SanityImageHotspot
+  | Header
   | Settings
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus

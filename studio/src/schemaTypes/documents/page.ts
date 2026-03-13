@@ -1,6 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
-import {pageBuilderContainerBlockTypes} from '../objects/pageBuilderBlockTypes'
+import {pageBuilderSectionBlockTypes} from '../objects/pageBuilderBlockTypes'
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -115,7 +115,7 @@ export const page = defineType({
       title: 'Page builder',
       type: 'array',
       group: 'content',
-      of: pageBuilderContainerBlockTypes,
+      of: pageBuilderSectionBlockTypes,
       options: {
         insertMenu: {
           // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/studio/array-type#efb1fe03459d

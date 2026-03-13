@@ -16,9 +16,13 @@ export function toArrayItemPath(arrayPath: string, key: string | undefined, inde
 export function getSanityDataAttribute(
   enabled: boolean,
   context: SanityPathContext,
-  path: string,
+  path?: string,
 ): string | undefined {
   if (!enabled) {
+    return undefined
+  }
+
+  if (!path || !path.trim()) {
     return undefined
   }
 

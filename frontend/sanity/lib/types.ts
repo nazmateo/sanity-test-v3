@@ -17,6 +17,13 @@ export type CbButtons = {
   items?: CbButton[] | null
 }
 
+export type HeroPhrase = {
+  _key?: string
+  _type: 'heroPhrase'
+  text?: string | null
+  placement?: 'topLeft' | 'middleRight' | 'bottomLeft' | null
+}
+
 export type CbHeading = {
   _key?: string
   _type: 'cbHeading'
@@ -132,10 +139,20 @@ export type LegacyInfoSection = {
   content?: unknown[] | null
 }
 
+export type HeroSection = {
+  _key?: string
+  _type: 'heroSection'
+  backgroundMedia?: CbMedia | null
+  content?: Array<CbHeading | CbParagraph> | null
+  phrases?: HeroPhrase[] | null
+  cta?: CbButton | null
+}
+
 export type PageBuilderSection =
   | PageBuilderAtom
   | CbButton
   | PageBuilderContainer
+  | HeroSection
   | LegacyCallToAction
   | LegacyInfoSection
 

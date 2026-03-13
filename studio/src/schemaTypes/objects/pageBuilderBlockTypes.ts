@@ -20,6 +20,11 @@ export const pageBuilderContainerBlockTypes: BlockType[] = [
   defineArrayMember({type: 'cbCover'}),
 ]
 
+export const pageBuilderSectionBlockTypes: BlockType[] = [
+  ...pageBuilderContainerBlockTypes,
+  defineArrayMember({type: 'heroSection'}),
+]
+
 export const pageBuilderComposableBlockTypes: BlockType[] = [
   ...pageBuilderAtomBlockTypes,
   ...pageBuilderContainerBlockTypes,

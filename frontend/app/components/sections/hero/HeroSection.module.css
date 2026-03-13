@@ -1,0 +1,56 @@
+.phrase {
+  opacity: 0;
+  transform: translateX(1rem);
+}
+
+.topLeft {
+  left: 22.86%;
+  top: 22.56%;
+}
+
+.middleRight {
+  left: 65.16%;
+  top: 44.3%;
+}
+
+.bottomLeft {
+  left: 8.8%;
+  top: 78.75%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .phrase {
+    animation: heroPhraseReveal 800ms ease-out forwards;
+  }
+
+  .delayOne {
+    animation-delay: 0ms;
+  }
+
+  .delayTwo {
+    animation-delay: 1000ms;
+  }
+
+  .delayThree {
+    animation-delay: 2000ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phrase {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes heroPhraseReveal {
+  from {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

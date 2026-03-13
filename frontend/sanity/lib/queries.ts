@@ -139,6 +139,25 @@ const cbWysiwygWithResolvedLinksProjection = /* groq */ `
   }
 `
 
+const heroSectionProjection = /* groq */ `
+  _type == "heroSection" => {
+    ...,
+    cta{
+      ...,
+      link{
+        ...,
+        "internalPageSlug": internalPage->slug.current
+      }
+    },
+    content[]{
+      ...
+    },
+    phrases[]{
+      ...
+    }
+  }
+`
+
 export const getPageQuery = defineQuery(`
   *[
     _type == 'page' &&
@@ -162,6 +181,7 @@ export const getPageQuery = defineQuery(`
     structuredData,
     "pageBuilder": pageBuilder[]{
       ...,
+      ${heroSectionProjection},
       ${cbButtonWithLinkProjection},
       ${cbButtonsWithLinksProjection},
       ${cbNavigationWithLinksProjection},
@@ -233,6 +253,7 @@ export const homePageQuery = defineQuery(`
     structuredData,
     "pageBuilder": pageBuilder[]{
       ...,
+      ${heroSectionProjection},
       ${cbButtonWithLinkProjection},
       ${cbButtonsWithLinksProjection},
       ${cbNavigationWithLinksProjection},

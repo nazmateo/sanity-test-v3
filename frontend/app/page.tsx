@@ -92,16 +92,7 @@ export default async function HomePage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(customStructuredData)}} />
       ) : null}
       <Header header={headerData} variant={pageWithSeo.headerVariant || 'negative'} />
-      <div className="my-12 lg:my-24">
-        <div className="container">
-          <div className="border-b border-border pb-6">
-            <div className="max-w-3xl">
-              <h1 className="text-4xl text-foreground sm:text-5xl lg:text-7xl">{pageWithSeo.name}</h1>
-            </div>
-          </div>
-        </div>
-        <PageBuilderPage page={page as BuilderPageData} />
-      </div>
+      <PageBuilderPage page={page as BuilderPageData} />
       <Footer
         footer={layoutData?.footer || null}
         settings={layoutData?.settings || null}
