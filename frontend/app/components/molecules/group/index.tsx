@@ -1,7 +1,7 @@
 import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "../../../lib/cn";
 
-export interface GroupProps extends HTMLAttributes<HTMLDivElement> {}
+export type GroupProps = HTMLAttributes<HTMLDivElement>;
 
 export const Group = forwardRef<HTMLDivElement, GroupProps>(({ className, ...props }, ref) => {
   return <div ref={ref} className={cn(className)} {...props} />;

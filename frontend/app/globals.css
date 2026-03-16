@@ -56,18 +56,30 @@
   --color-border: var(--color-midnight);
   --color-accent: var(--color-cyan);
   --color-accent-foreground: var(--color-white);
+  --color-cta: #f25e03;
+  --color-cta-foreground: var(--color-white);
   --color-primary: var(--color-midnight);
   --color-primary-foreground: var(--color-white);
 
   --radius-card: 1.25rem;
+  --radius-panel: 1.875rem;
 
   --text-hero-display: 8.75rem;
   --text-hero-display--line-height: 1;
   --text-heading-display: 2.5rem;
   --text-heading-display--line-height: 1.3;
+  --text-action-lg: 1.375rem;
+  --text-action-lg--line-height: 1.3;
   --text-body-lg: 1.625rem;
   --text-body-lg--line-height: 1.3;
   --text-label-caps: 1.25rem;
   --text-label-caps--line-height: 1.1;
   --text-label-caps--letter-spacing: 0.02em;
+  --text-stat-display: 5rem;
+  --text-stat-display--line-height: 1.3;
+
+  --spacing-about-media: 40rem;
+  --spacing-about-stat-short: 13rem;
+  --spacing-about-stat-medium: 18rem;
+  --spacing-about-stat-tall: 24rem;
 }

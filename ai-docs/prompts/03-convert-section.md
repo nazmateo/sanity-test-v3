@@ -25,6 +25,7 @@ Rules:
 - Keep shared non-trivial types in separate importable files when they are reused outside the component.
 - Add correct `data-sanity` paths and preserve `_key`/identity fields required for Visual Editing drag and drop.
 - Use stegaClean for the texts or add some visual padding to the array child to create space for the “draggable” area.
+- If heading, paragraph, CTA, or similar section content needs drag-and-drop reordering in Presentation Tool, place those items in section-owned arrays such as `content[]` instead of separate object fields.
 - If the section contains nested reorderable children, follow Sanity's nested array pattern by wrapping child arrays inside `object` types. Reference: https://www.sanity.io/docs/visual-editing/enabling-drag-and-drop
 - Default nesting shape for this repo:
   - `pageBuilder[]` for sections

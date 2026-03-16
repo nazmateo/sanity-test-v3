@@ -40,6 +40,8 @@ These rules apply to every Figma-to-page implementation run in this repository.
 - Compose with the existing `cb*` block system first.
 - Add a new schema object only when the current block system cannot represent the section clearly.
 - Keep fields minimal but expressive.
+- When a section owns draggable content in Presentation Tool, store those items in array fields rather than standalone object fields so drag and drop can target the array members directly.
+- Follow the existing Hero pattern for reorderable section content: keep fixed media in standalone fields when appropriate, and place reorderable heading, paragraph, button, or similar content in `content[]`.
 - When a section has nested reorderable children, wrap child arrays inside object types.
 - Preserve `_key` and related identity fields for reorderable array members.
 

@@ -17,8 +17,10 @@ import {Navigation} from '@/app/components/molecules/navigation'
 import {BlockSlot} from '@/app/components/organisms/block-slot'
 import {Columns} from '@/app/components/organisms/columns'
 import {Cover} from '@/app/components/organisms/cover'
+import AboutUsSectionBlock from '@/app/components/sections/about-us'
 import HeroSectionBlock from '@/app/components/sections/hero'
 import {
+  type AboutUsSection,
   type CbButton,
   type CbColumn,
   type CbCover,
@@ -537,6 +539,24 @@ export default function BlockRenderer({
         >
           <HeroSectionBlock
             block={block as HeroSection}
+            blockPath={blockPath}
+            isDraftMode={isDraftMode}
+            pageId={pageId}
+            pageType={pageType}
+          />
+        </BlockSlot>
+      )
+    case 'aboutUsSection':
+      return (
+        <BlockSlot
+          refId={key}
+          data-page-id={pageId}
+          data-page-type={pageType}
+          data-sanity={blockDataAttr}
+          unstyled
+        >
+          <AboutUsSectionBlock
+            block={block as AboutUsSection}
             blockPath={blockPath}
             isDraftMode={isDraftMode}
             pageId={pageId}

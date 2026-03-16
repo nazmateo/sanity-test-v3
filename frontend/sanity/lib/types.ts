@@ -148,11 +148,30 @@ export type HeroSection = {
   cta?: CbButton | null
 }
 
+export type AboutUsStat = {
+  _key?: string
+  _type: 'aboutUsStat'
+  value?: string | null
+  label?: string | null
+  variant?: 'outline' | 'dark' | 'accent' | null
+}
+
+export type AboutUsContent = CbHeading | CbParagraph | CbButton
+
+export type AboutUsSection = {
+  _key?: string
+  _type: 'aboutUsSection'
+  image?: CbImage | null
+  content?: AboutUsContent[] | null
+  stats?: AboutUsStat[] | null
+}
+
 export type PageBuilderSection =
   | PageBuilderAtom
   | CbButton
   | PageBuilderContainer
   | HeroSection
+  | AboutUsSection
   | LegacyCallToAction
   | LegacyInfoSection
 

@@ -164,8 +164,14 @@ export default function HeaderClient({header, variant = 'positive', isDraftMode}
   const [openItemId, setOpenItemId] = useState<string | null>(null)
 
   useEffect(() => {
-    setMobileOpen(false)
-    setOpenItemId(null)
+    const frameId = window.requestAnimationFrame(() => {
+      setMobileOpen(false)
+      setOpenItemId(null)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+    }
   }, [pathname])
 
   const languageLabel = pathname.startsWith('/ae')

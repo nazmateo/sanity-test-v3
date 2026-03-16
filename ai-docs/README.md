@@ -68,6 +68,7 @@ Do not read unrelated job files, templates, or completed section notes unless th
 - Keep schema, query, types, renderer, and route changes synchronized in the same change set.
 - Keep page rendering CMS-driven through the existing page builder mapping instead of adding separate manual page assembly steps unless the task explicitly requires route-level logic.
 - Preserve Sanity Visual Editing requirements, including `_key`, identity data, and correct `data-sanity` paths.
+- When section content must be draggable or reorderable in Presentation Tool, model those items as arrays inside the section object, following the Hero pattern for `content[]` and other reorderable groups.
 - Use object-wrapped nested arrays when a reorderable array must exist inside another array.
 - Keep Tailwind styling token-first. Add semantic tokens in `frontend/app/globals.css` and consume them through Tailwind utilities in JSX.
 - Keep shared non-trivial TypeScript types in importable files instead of duplicating them inline.

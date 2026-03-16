@@ -2,7 +2,7 @@
 
 This file is for developers. It explains how to instruct Codex from start to finish for the Figma-to-Sanity-to-Next.js workflow used in this repository.
 
-Use this as the human-facing handoff guide. `ai-docs/README.md` is the Codex-only execution guide.
+Use this as the human-facing handoff guide. `ai-docs/README.md` is the Codex-only execution guide. Note: Every start of AI session, make codex understand `ai-docs/README.md` before execution of the workflow.
 
 For boilerplate usage:
 

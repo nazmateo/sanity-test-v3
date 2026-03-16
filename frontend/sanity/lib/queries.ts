@@ -158,6 +158,25 @@ const heroSectionProjection = /* groq */ `
   }
 `
 
+const aboutUsSectionProjection = /* groq */ `
+  _type == "aboutUsSection" => {
+    ...,
+    content[]{
+      ...,
+      _type == "cbButton" => {
+        ...,
+        link{
+          ...,
+          "internalPageSlug": internalPage->slug.current
+        }
+      }
+    },
+    stats[]{
+      ...
+    }
+  }
+`
+
 export const getPageQuery = defineQuery(`
   *[
     _type == 'page' &&
@@ -182,6 +201,7 @@ export const getPageQuery = defineQuery(`
     "pageBuilder": pageBuilder[]{
       ...,
       ${heroSectionProjection},
+      ${aboutUsSectionProjection},
       ${cbButtonWithLinkProjection},
       ${cbButtonsWithLinksProjection},
       ${cbNavigationWithLinksProjection},
@@ -254,6 +274,7 @@ export const homePageQuery = defineQuery(`
     "pageBuilder": pageBuilder[]{
       ...,
       ${heroSectionProjection},
+      ${aboutUsSectionProjection},
       ${cbButtonWithLinkProjection},
       ${cbButtonsWithLinksProjection},
       ${cbNavigationWithLinksProjection},

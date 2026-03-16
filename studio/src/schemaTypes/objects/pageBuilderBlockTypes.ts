@@ -22,6 +22,7 @@ export const pageBuilderContainerBlockTypes: BlockType[] = [
 
 export const pageBuilderSectionBlockTypes: BlockType[] = [
   ...pageBuilderContainerBlockTypes,
+  defineArrayMember({type: 'aboutUsSection'}),
   defineArrayMember({type: 'heroSection'}),
 ]
 

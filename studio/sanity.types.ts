@@ -216,6 +216,31 @@ export type CbHtml = {
   content?: string
 }
 
+export type HeroSection = {
+  _type: 'heroSection'
+  backgroundMedia: CbMedia
+  content: Array<
+    | ({
+        _key: string
+      } & CbHeading)
+    | ({
+        _key: string
+      } & CbParagraph)
+  >
+  phrases: Array<
+    {
+      _key: string
+    } & HeroPhrase
+  >
+  cta?: CbButton
+}
+
+export type HeroPhrase = {
+  _type: 'heroPhrase'
+  text: string
+  placement: 'topLeft' | 'middleRight' | 'bottomLeft'
+}
+
 export type CbHeading = {
   _type: 'cbHeading'
   content?: string
@@ -354,6 +379,26 @@ export type CbButton = {
   label?: string
   actionType: 'button' | 'link'
   link?: CbLink
+}
+
+export type AboutUsStat = {
+  _type: 'aboutUsStat'
+  value: string
+  label: string
+  variant: 'outline' | 'dark' | 'accent'
+}
+
+export type AboutUsSection = {
+  _type: 'aboutUsSection'
+  image: CbImage
+  heading: CbHeading
+  body: CbParagraph
+  cta?: CbButton
+  stats: Array<
+    {
+      _key: string
+    } & AboutUsStat
+  >
 }
 
 export type Footer = {
@@ -691,6 +736,12 @@ export type HomePage = {
     | ({
         _key: string
       } & CbCover)
+    | ({
+        _key: string
+      } & AboutUsSection)
+    | ({
+        _key: string
+      } & HeroSection)
   >
   seo?: {
     metaTitle?: string
@@ -771,6 +822,12 @@ export type Page = {
     | ({
         _key: string
       } & CbCover)
+    | ({
+        _key: string
+      } & AboutUsSection)
+    | ({
+        _key: string
+      } & HeroSection)
   >
   seo?: {
     metaTitle?: string
@@ -915,6 +972,8 @@ export type AllSanitySchemaTypes =
   | CbLink
   | CbImage
   | CbHtml
+  | HeroSection
+  | HeroPhrase
   | CbHeading
   | CbGroup
   | CbCover
@@ -922,6 +981,8 @@ export type AllSanitySchemaTypes =
   | CbColumn
   | CbButtons
   | CbButton
+  | AboutUsStat
+  | AboutUsSection
   | Footer
   | SanityImageCrop
   | SanityImageHotspot
