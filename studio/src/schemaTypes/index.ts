@@ -4,6 +4,7 @@ import {settings} from './singletons/settings'
 import {homePage} from './singletons/homePage'
 import {header} from './singletons/header'
 import {footer} from './singletons/footer'
+import aboutUsContentRow from './objects/aboutUsContentRow'
 import aboutUsSection from './objects/aboutUsSection'
 import aboutUsStat from './objects/aboutUsStat'
 import {blockContent} from './objects/blockContent'
@@ -31,6 +32,7 @@ import {menuSubLink} from './objects/menuSubLink'
 import cbNavigationLink from './objects/navigation-link'
 import cbNavigation from './objects/navigation'
 import cbParagraph from './objects/paragraph'
+import splitArrowButton from './objects/splitArrowButton'
 import cbWysiwyg from './objects/wysiwyg'
 
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
@@ -45,6 +47,7 @@ export const schemaTypes = [
   page,
   legalPage,
   // Objects
+  aboutUsContentRow,
   aboutUsSection,
   aboutUsStat,
   cbButton,
@@ -70,6 +73,7 @@ export const schemaTypes = [
   cbNavigationLink,
   cbNavigation,
   cbParagraph,
+  splitArrowButton,
   cbWysiwyg,
   blockContent,
   blockContentTextOnly,

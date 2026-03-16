@@ -105,80 +105,111 @@ function resolveAboutUsImage(existingImage) {
     }
   }
 
-  return existingImage
+  return existingImage || {_type: 'cbImage'}
 }
 
 function buildAboutUsSection(existingAboutUsSection) {
-  const image = resolveAboutUsImage(existingAboutUsSection?.image)
+  const existingRows = Array.isArray(existingAboutUsSection?.rows) ? existingAboutUsSection.rows : []
+  const existingIntroRow = existingRows.find(
+    (row) => row?._type === 'aboutUsContentRow' && row?.layout === 'intro',
+  )
+  const existingImage = Array.isArray(existingIntroRow?.content)
+    ? existingIntroRow.content.find((item) => item?._type === 'cbImage')
+    : null
+  const image = resolveAboutUsImage(existingImage)
 
   return {
     _type: 'aboutUsSection',
     _key: ABOUT_US_SECTION_KEY,
-    ...(image ? {image} : {}),
-    content: [
+    rows: [
       {
-        _type: 'cbHeading',
-        _key: 'about-us-heading',
-        content:
-          'Albatha is a UAE-founded business group built on the conviction that values and performance go hand in hand.',
-        level: 'h2',
+        _type: 'aboutUsContentRow',
+        _key: 'about-us-row-content',
+        layout: 'intro',
+        content: [
+          ...(image
+            ? [
+                {
+                  _key: 'about-us-image',
+                  ...image,
+                },
+              ]
+            : []),
+          {
+            _type: 'cbHeading',
+            _key: 'about-us-heading',
+            content:
+              'Albatha is a UAE-founded business group built on the conviction that values and performance go hand in hand.',
+            level: 'h2',
+          },
+          {
+            _type: 'cbParagraph',
+            _key: 'about-us-body',
+            content:
+              'With more than 10,000 people across 35 companies and multiple sectors across the GCC, we work to improve quality of life for our employees, partners, and communities. Every day, in every business.',
+          },
+          {
+            _type: 'splitArrowButton',
+            _key: 'about-us-cta',
+            label: 'About Us',
+            link: pathLink('/about'),
+          },
+        ],
       },
       {
-        _type: 'cbParagraph',
-        _key: 'about-us-body',
-        content:
-          'With more than 10,000 people across 35 companies and multiple sectors across the GCC, we work to improve quality of life for our employees, partners, and communities. Every day, in every business.',
-      },
-      {
-        _type: 'cbButton',
-        _key: 'about-us-cta',
-        label: 'About Us',
-        actionType: 'link',
-        link: pathLink('/about'),
-      },
-    ],
-    stats: [
-      {
-        _type: 'aboutUsStat',
-        _key: 'about-us-stat-founding-year',
-        value: '1959',
-        label: 'Founding Year',
-        variant: 'outline',
-      },
-      {
-        _type: 'aboutUsStat',
-        _key: 'about-us-stat-global-partners',
-        value: '200+',
-        label: 'Global Partners',
-        variant: 'accent',
-      },
-      {
-        _type: 'aboutUsStat',
-        _key: 'about-us-stat-employees',
-        value: '10,000+',
-        label: 'Employees',
-        variant: 'dark',
-      },
-      {
-        _type: 'aboutUsStat',
-        _key: 'about-us-stat-group-companies',
-        value: '35',
-        label: 'Group Companies',
-        variant: 'outline',
-      },
-      {
-        _type: 'aboutUsStat',
-        _key: 'about-us-stat-region',
-        value: 'GCC',
-        label: '& Beyond',
-        variant: 'accent',
-      },
-      {
-        _type: 'aboutUsStat',
-        _key: 'about-us-stat-export-markets',
-        value: '45+',
-        label: 'Export Markets',
-        variant: 'dark',
+        _type: 'aboutUsContentRow',
+        _key: 'about-us-row-stats',
+        layout: 'stats',
+        content: [
+          {
+            _type: 'aboutUsStat',
+            _key: 'about-us-stat-founding-year',
+            value: '1959',
+            label: 'Founding Year',
+            variant: 'outline',
+            animateValue: true,
+          },
+          {
+            _type: 'aboutUsStat',
+            _key: 'about-us-stat-global-partners',
+            value: '200+',
+            label: 'Global Partners',
+            variant: 'accent',
+            animateValue: true,
+          },
+          {
+            _type: 'aboutUsStat',
+            _key: 'about-us-stat-employees',
+            value: '10,000+',
+            label: 'Employees',
+            variant: 'dark',
+            animateValue: true,
+          },
+          {
+            _type: 'aboutUsStat',
+            _key: 'about-us-stat-group-companies',
+            value: '35',
+            label: 'Group Companies',
+            variant: 'outline',
+            animateValue: true,
+          },
+          {
+            _type: 'aboutUsStat',
+            _key: 'about-us-stat-region',
+            value: 'GCC',
+            label: '& Beyond',
+            variant: 'accent',
+            animateValue: false,
+          },
+          {
+            _type: 'aboutUsStat',
+            _key: 'about-us-stat-export-markets',
+            value: '45+',
+            label: 'Export Markets',
+            variant: 'dark',
+            animateValue: true,
+          },
+        ],
       },
     ],
   }
@@ -222,9 +253,14 @@ async function run() {
   console.log(`- dataset: ${dataset}`)
   console.log(`- documentId: ${documentId}`)
   console.log(`- pageBuilder sections: ${nextPageBuilder.length}`)
-  console.log(`- content items: ${aboutUsSection.content.length}`)
-  console.log(`- stats: ${aboutUsSection.stats.length}`)
-  console.log(`- image: ${aboutUsSection.image ? 'preserved or seeded from env' : 'left empty for manual upload'}`)
+  const introRow = aboutUsSection.rows.find((row) => row._type === 'aboutUsContentRow' && row.layout === 'intro')
+  const statsRow = aboutUsSection.rows.find((row) => row._type === 'aboutUsContentRow' && row.layout === 'stats')
+  const imageItem = introRow?.content?.find((item) => item._type === 'cbImage')
+
+  console.log(`- rows: ${aboutUsSection.rows.length}`)
+  console.log(`- intro content items: ${introRow?.content?.length || 0}`)
+  console.log(`- stats: ${statsRow?.content?.filter((item) => item._type === 'aboutUsStat').length || 0}`)
+  console.log(`- image: ${imageItem ? 'preserved or seeded from env' : 'left empty for manual upload'}`)
 }
 
 run().catch((error) => {

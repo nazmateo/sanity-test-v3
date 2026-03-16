@@ -57,7 +57,7 @@ DEPENDENCIES: N/A
 
 2. SECTION_NAME: About Us
    TARGET_NODE_URL: https://www.figma.com/design/SHmyeVzNQcnZ5cf20V3uIh/Albatha-Website?node-id=139-1298&m=dev
-   NOTES: Schema will have an image, a content array for the header pharagrap (h2), text pharagraph (p), and reusable CTA so drag and drop works in Presentation Tool, plus blocks of company stats (6 blocks with designated colors). Blocks numbers will animate count up from 0 to the designated number.
+   NOTES: Schema will use section `rows[]`, and each row will have `content[]` for draggable CMS content. Row 1 contains the image, header paragraph (h2), text paragraph (p), and reusable CTA. Row 2 contains the six company stat blocks with designated colors. Use row/object descriptor fields for layout or animation metadata. Blocks numbers will animate count up from 0 to the designated number.
    STATUS: in-progress
 
 3. SECTION_NAME: Sectors

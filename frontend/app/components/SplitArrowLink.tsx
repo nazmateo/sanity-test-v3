@@ -13,7 +13,7 @@ type SplitArrowLinkProps = {
 
 function ArrowRightIcon() {
   return (
-    <svg aria-hidden="true" className="size-5 sm:size-6" viewBox="0 0 24 24" fill="none">
+    <svg aria-hidden="true" className="size-5 sm:size-6 lg:size-7" viewBox="0 0 24 24" fill="none">
       <path
         d="M5 12h14"
         stroke="currentColor"
@@ -45,16 +45,16 @@ export default function SplitArrowLink({label, link, className}: SplitArrowLinkP
     <Link
       href={href}
       className={cn(
-        'group inline-flex w-fit items-stretch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-4 focus-visible:ring-offset-surface',
+        'group inline-flex w-full max-w-full items-stretch focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:ring-offset-4 focus-visible:ring-offset-surface sm:w-fit',
         className,
       )}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       target={isExternal ? '_blank' : undefined}
     >
-      <span className="inline-flex min-w-48 items-center justify-center rounded-l-card bg-primary px-6 py-4 text-center text-action-lg font-medium uppercase tracking-wide text-primary-foreground transition-colors duration-200 group-hover:bg-primary/92 group-focus-visible:bg-primary/92 sm:min-w-56">
+      <span className="inline-flex h-16 min-w-0 flex-1 items-center justify-center rounded-l-[var(--radius-split-button)] bg-primary px-5 text-center text-sm leading-none font-medium uppercase tracking-normal text-primary-foreground transition-colors duration-200 group-hover:bg-primary/92 group-focus-visible:bg-primary/92 sm:h-split-button-height sm:w-split-button-label sm:flex-none sm:px-6 sm:text-base lg:text-action-lg">
         {cleanedLabel}
       </span>
-      <span className="inline-flex w-16 items-center justify-center rounded-r-card bg-cta text-cta-foreground transition-colors duration-200 group-hover:bg-cta/92 group-focus-visible:bg-cta/92 sm:w-20">
+      <span className="inline-flex h-16 w-14 items-center justify-center rounded-r-[var(--radius-split-button)] bg-cta text-cta-foreground transition-colors duration-200 group-hover:bg-cta/92 group-focus-visible:bg-cta/92 sm:h-split-button-height sm:w-split-button-arrow">
         <ArrowRightIcon />
       </span>
     </Link>

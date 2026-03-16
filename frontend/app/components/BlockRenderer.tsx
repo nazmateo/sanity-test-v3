@@ -1,6 +1,7 @@
 import CTA from '@/app/components/Cta'
 import InfoSection from '@/app/components/InfoSection'
 import CustomPortableText from '@/app/components/PortableText'
+import SplitArrowLink from '@/app/components/SplitArrowLink'
 import type {PortableTextBlock} from 'next-sanity'
 import {Button} from '@/app/components/atoms/button'
 import {Heading} from '@/app/components/atoms/heading'
@@ -29,6 +30,7 @@ import {
   type CbLink,
   type CbMedia,
   type PageBuilderSection,
+  type SplitArrowButton,
 } from '@/sanity/lib/types'
 import {getSanityDataAttribute, toArrayItemPath} from '@/sanity/lib/visual-editing'
 
@@ -185,6 +187,10 @@ function renderButton(button: CbButton, key?: string) {
   return <Button key={key}>{text}</Button>
 }
 
+function renderSplitArrowButton(button: SplitArrowButton, key?: string) {
+  return <SplitArrowLink key={key} label={button.label} link={button.link} />
+}
+
 function renderColumnContent(
   column: CbColumn,
   pageId: string,
@@ -201,7 +207,7 @@ function renderColumnContent(
       {(column.children || []).map((child, childIndex) => (
         <BlockRenderer
           key={child._key || `${column._key || 'column'}-${childIndex}`}
-          block={child}
+          block={child as PageBuilderSection}
           index={childIndex}
           pageId={pageId}
           pageType={pageType}
@@ -229,7 +235,7 @@ function renderGroupContent(
       {(group.children || []).map((child, childIndex) => (
         <BlockRenderer
           key={child._key || `${group._key || 'group'}-${childIndex}`}
-          block={child}
+          block={child as PageBuilderSection}
           index={childIndex}
           pageId={pageId}
           pageType={pageType}
@@ -257,7 +263,7 @@ function renderCoverContent(
       {(cover.content || []).map((child, childIndex) => (
         <BlockRenderer
           key={child._key || `${cover._key || 'cover'}-${childIndex}`}
-          block={child}
+          block={child as PageBuilderSection}
           index={childIndex}
           pageId={pageId}
           pageType={pageType}
@@ -355,6 +361,17 @@ export default function BlockRenderer({
           {renderButton(block)}
         </BlockSlot>
       )
+    case 'splitArrowButton':
+      return (
+        <BlockSlot
+          refId={key}
+          data-page-id={pageId}
+          data-page-type={pageType}
+          data-sanity={blockDataAttr}
+        >
+          {renderSplitArrowButton(block)}
+        </BlockSlot>
+      )
     case 'cbButtons':
       return (
         <BlockSlot
@@ -375,7 +392,9 @@ export default function BlockRenderer({
                   )
                 }
               >
-                {renderButton(item, item._key || `${key}-${i}`)}
+                {item._type === 'splitArrowButton'
+                  ? renderSplitArrowButton(item, item._key || `${key}-${i}`)
+                  : renderButton(item, item._key || `${key}-${i}`)}
               </span>
             ))}
           </Buttons>

@@ -3,7 +3,9 @@ import {defineArrayMember} from 'sanity'
 type BlockType = {type: string}
 
 export const pageBuilderAtomBlockTypes: BlockType[] = [
+  defineArrayMember({type: 'aboutUsStat'}),
   defineArrayMember({type: 'cbButton'}),
+  defineArrayMember({type: 'splitArrowButton'}),
   defineArrayMember({type: 'cbHeading'}),
   defineArrayMember({type: 'cbParagraph'}),
   defineArrayMember({type: 'cbWysiwyg'}),

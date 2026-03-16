@@ -32,6 +32,13 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'animateValue',
+      title: 'Animate Value',
+      description: 'Count numeric values up when the card enters the viewport.',
+      type: 'boolean',
+      initialValue: true,
+    }),
   ],
   preview: {
     select: {

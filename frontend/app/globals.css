@@ -63,6 +63,7 @@
 
   --radius-card: 1.25rem;
   --radius-panel: 1.875rem;
+  --radius-split-button: 0.625rem;
 
   --text-hero-display: 8.75rem;
   --text-hero-display--line-height: 1;
@@ -78,8 +79,23 @@
   --text-stat-display: 5rem;
   --text-stat-display--line-height: 1.3;
 
+  --spacing-about-section-top: 6.25rem;
+  --spacing-about-section-bottom: 2.5rem;
+  --spacing-about-section-x: 10rem;
+  --spacing-about-section-gap: 5rem;
+  --spacing-about-row-gap: 4.0625rem;
+  --spacing-about-content-gap: 3.75rem;
+  --spacing-about-grid-width: 49.375rem;
   --spacing-about-media: 40rem;
-  --spacing-about-stat-short: 13rem;
-  --spacing-about-stat-medium: 18rem;
-  --spacing-about-stat-tall: 24rem;
+  --spacing-about-media-width: 47.375rem;
+  --spacing-about-media-offset: 10.0625rem;
+  --spacing-about-stat-grid: 77.5rem;
+  --spacing-about-stat-gap: 1.25rem;
+  --spacing-about-stat-short: 12.5rem;
+  --spacing-about-stat-medium: 18.125rem;
+  --spacing-about-stat-tall: 23.75rem;
+
+  --spacing-split-button-label: 17.125rem;
+  --spacing-split-button-arrow: 5.3125rem;
+  --spacing-split-button-height: 4.8125rem;
 }

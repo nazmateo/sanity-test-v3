@@ -40,8 +40,11 @@ These rules apply to every Figma-to-page implementation run in this repository.
 - Compose with the existing `cb*` block system first.
 - Add a new schema object only when the current block system cannot represent the section clearly.
 - Keep fields minimal but expressive.
-- When a section owns draggable content in Presentation Tool, store those items in array fields rather than standalone object fields so drag and drop can target the array members directly.
-- Follow the existing Hero pattern for reorderable section content: keep fixed media in standalone fields when appropriate, and place reorderable heading, paragraph, button, or similar content in `content[]`.
+- When a section owns draggable content in Presentation Tool, model that content as `rows[]` on the section. Each row must be an object that contains a `content[]` array so drag and drop targets stable array members at both row and content levels.
+- Keep only non-draggable section-level data such as background images, background videos, or fixed configuration on direct section object fields. Do not mix those fixed fields into the draggable row content unless the media itself must be draggable.
+- When a section exposes nested dynamic CMS content, use the existing composable `cb*` block family and other approved reusable object blocks only inside the row `content[]` arrays. Do not permit section types inside section-owned nested content arrays.
+- Sitewide styled controls that should be reusable in multiple sections must be modeled as standalone composable object types and rendered through the shared block mapping.
+- If a draggable content item needs extra descriptors such as variant, size, animation, or layout metadata, create a wrapper object schema for that item and store those descriptor fields on the wrapper object.
 - When a section has nested reorderable children, wrap child arrays inside object types.
 - Preserve `_key` and related identity fields for reorderable array members.
 

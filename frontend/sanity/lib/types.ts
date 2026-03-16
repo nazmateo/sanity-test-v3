@@ -11,10 +11,17 @@ export type CbButton = {
   url?: string | null
 }
 
+export type SplitArrowButton = {
+  _key?: string
+  _type: 'splitArrowButton'
+  label?: string | null
+  link?: CbLink | null
+}
+
 export type CbButtons = {
   _key?: string
   _type: 'cbButtons'
-  items?: CbButton[] | null
+  items?: Array<CbButton | SplitArrowButton> | null
 }
 
 export type HeroPhrase = {
@@ -154,21 +161,33 @@ export type AboutUsStat = {
   value?: string | null
   label?: string | null
   variant?: 'outline' | 'dark' | 'accent' | null
+  animateValue?: boolean | null
 }
 
-export type AboutUsContent = CbHeading | CbParagraph | CbButton
+export type ComposablePageBuilderBlock =
+  | AboutUsStat
+  | PageBuilderAtom
+  | CbButton
+  | SplitArrowButton
+  | PageBuilderContainer
+
+export type AboutUsContentRow = {
+  _key?: string
+  _type: 'aboutUsContentRow'
+  layout?: 'intro' | 'stats' | null
+  content?: ComposablePageBuilderBlock[] | null
+}
 
 export type AboutUsSection = {
   _key?: string
   _type: 'aboutUsSection'
-  image?: CbImage | null
-  content?: AboutUsContent[] | null
-  stats?: AboutUsStat[] | null
+  rows?: AboutUsContentRow[] | null
 }
 
 export type PageBuilderSection =
   | PageBuilderAtom
   | CbButton
+  | SplitArrowButton
   | PageBuilderContainer
   | HeroSection
   | AboutUsSection
@@ -189,13 +208,13 @@ export type PageBuilderContainer =
 export type CbGroup = {
   _key?: string
   _type: 'cbGroup'
-  children?: PageBuilderSection[] | null
+  children?: ComposablePageBuilderBlock[] | null
 }
 
 export type CbColumn = {
   _key?: string
   _type: 'cbColumn'
-  children?: PageBuilderSection[] | null
+  children?: ComposablePageBuilderBlock[] | null
 }
 
 export type CbColumns = {
@@ -210,7 +229,7 @@ export type CbCover = {
   backgroundMedia?: CbMedia | null
   // Legacy field
   url?: string | null
-  content?: PageBuilderSection[] | null
+  content?: ComposablePageBuilderBlock[] | null
 }
 
 export type ExtractPageBuilderType<T extends string> = Extract<PageBuilderSection, {_type: T}>
